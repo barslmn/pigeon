@@ -1,0 +1,2 @@
+# Include the data files
+include pigeon/examples/example_config.conf

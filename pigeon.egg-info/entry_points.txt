@@ -1,0 +1,3 @@
+[console_scripts]
+pigeon = pigeon.pigeon:main
+
