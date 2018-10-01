@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 __author__ = 'bars'
-__version__ = '0.2.0'
 
 import sys
 import argparse
 from pigeon.core.pipeline import Pipe
 from pigeon.utils import copyexamplefiles
+from pigeon import __version__
 
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--configfile', required=False,
+    parser.add_argument('-c', '--configfile', required=True,
                         default=None, type=str,
                         help='Config file for project. Please see documentation.')
 
