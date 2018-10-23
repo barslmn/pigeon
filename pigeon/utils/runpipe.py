@@ -30,7 +30,7 @@ class RunPipe:
                 # Send cmd to shell
                 cmd = orig_func(*args, **kwargs)
                 tool_outs, tool_errs = Popen(
-                    cmd, stdout=PIPE, stderr=PIPE, shell=True).communicate()
+                    cmd.split(' '), stdout=PIPE, stderr=PIPE, shell=False).communicate()
                 # Timing
                 t2 = time.time() - t1
                 # Loging

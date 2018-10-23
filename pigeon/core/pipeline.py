@@ -9,10 +9,10 @@ class Pipe():
 
     """Docstring for seqPipe. """
 
-    def __init__(self, configfile, dryrun=False, verbose=False):
+    def __init__(self, pipeline_config, dryrun=False, verbose=False , from_string=False):
         """TODO: to be defined1. """
 
-        pipe_configs = ParseConfig(configfile)
+        pipe_configs = ParseConfig(pipeline_config, from_string=from_string)
         self.general_args = pipe_configs.general_args
         self.tool_args = pipe_configs.tool_args
         self.tool_list = pipe_configs.tool_list
@@ -188,6 +188,7 @@ class Pipe():
                         sys.stdout.write('Passed:\n' + cmd + '\n')
                     else:
                         sys.stdout.write('\n' + cmd + '\n')
+        self.remove_files()
 
     def remove_files(self):
         for tool in self.tool_list:

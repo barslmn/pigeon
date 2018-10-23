@@ -8,16 +8,20 @@ class ParseConfig(object):
 
     """Docstring for ParseConfig. """
 
-    def __init__(self, config_file):
+    def __init__(self, pipeline_config, from_string=False):
         """TODO: to be defined1. """
-        self.config_file = config_file
+        self.pipeline_config = pipeline_config
+        self.from_string = from_string
 
     @property
     def config(self):
-        pipe_config = configparser.ConfigParser()
-        pipe_config._interpolation = configparser.ExtendedInterpolation()
-        pipe_config.read(self.config_file)
-        return pipe_config
+        _config = configparser.ConfigParser()
+        _config._interpolation = configparser.ExtendedInterpolation()
+        if self.from_string is not False:
+            _config.read_string(self.pipeline_config)
+        else:
+            _config.read(self.pipeline_config)
+        return _config
 
     @property
     def tool_list(self):
