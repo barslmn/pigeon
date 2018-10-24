@@ -24,13 +24,13 @@ class RunPipe:
         def run_cmd_infra(orig_func):
             @wraps(orig_func)
             def wrapper(*args, **kwargs):
-                tool_datetime = datetime.datetime.now().strftime("%A %Y/%m/%d %M:%S %p")
+                tool_datetime = datetime.datetime.now().strftime("%A %Y/%m/%d %H:%M:%S %p")
                 # Timing
                 t1 = time.time()
                 # Send cmd to shell
                 cmd = orig_func(*args, **kwargs)
                 tool_outs, tool_errs = Popen(
-                    cmd.split(' '), stdout=PIPE, stderr=PIPE, shell=False).communicate()
+                    cmd, stdout=PIPE, stderr=PIPE, shell=True).communicate()
                 # Timing
                 t2 = time.time() - t1
                 # Loging
