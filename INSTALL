@@ -1,5 +1,6 @@
 #!/bin/bash
 version=$(grep -o "'.*'" pigeon/__init__.py | sed "s/'//g")
 python3 setup.py bdist_wheel
+python3 setup_pypi.py bdist_wheel
 sudo pip3 uninstall pigeon
 sudo pip3 install dist/pigeon-${version}-py3-none-any.whl

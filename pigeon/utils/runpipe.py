@@ -36,6 +36,7 @@ class RunPipe:
                 # Loging
                 logging.basicConfig(filename='{}.log'.format(
                     join(self.output_dir, self.project_name)), level=logging.INFO)
+                logger = logging.getLogger(__name__)
                 start_log = 'Start log for job: {}\nStart time: {}\nCommand:\n{}'.format(
                     self.tool, tool_datetime, self.cmd)
                 end_log = 'Finished running command in {}.\nEnd of log for job: {}\n{}\n'.format(
@@ -53,13 +54,12 @@ class RunPipe:
                 else:
                     tool_errs = ['Nothing here']
 
-                logging.info(start_log)
+                logger.info(start_log)
                 for tool_out in tool_outs:
-                    logging.info(tool_out)
+                    logger.info(tool_out)
                 for tool_err in tool_errs:
-                    logging.error(tool_err)
-                logging.info(end_log)
-                logging.shutdown()
+                    logger.error(tool_err)
+                logger.info(end_log)
 
                 if self.verbose != False:
                     sys.stdout.write('{}\nTOOL OUTPUT:\n{}\nTOOL ERROR:\n{}\n{}'.format(

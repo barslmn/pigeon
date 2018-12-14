@@ -8,19 +8,22 @@ class ParseConfig(object):
 
     """Docstring for ParseConfig. """
 
-    def __init__(self, pipeline_config, from_string=False):
+    def __init__(self, pipeline_config, read_from='file'):
         """TODO: to be defined1. """
         self.pipeline_config = pipeline_config
-        self.from_string = from_string
+        self.read_from = read_from
 
     @property
     def config(self):
-        _config = configparser.ConfigParser()
-        _config._interpolation = configparser.ExtendedInterpolation()
-        if self.from_string is not False:
-            _config.read_string(self.pipeline_config)
+        if self.read_from == 'configparser':
+            _config = self.pipeline_config
         else:
-            _config.read(self.pipeline_config)
+            _config = configparser.ConfigParser()
+            _config._interpolation = configparser.ExtendedInterpolation()
+            if self.read_from == 'string':
+                _config.read_string(self.pipeline_config)
+            else:
+                _config.read(self.pipeline_config)
         return _config
 
     @property
@@ -41,3 +44,7 @@ class ParseConfig(object):
     @property
     def general_args(self):
         return {arg: self.config['GENERAL'][arg] for arg in self.config['GENERAL']}
+
+    @property
+    def default_args(self):
+        return {arg: self.config['DEFAULT'][arg] for arg in self.config['DEFAULT']}

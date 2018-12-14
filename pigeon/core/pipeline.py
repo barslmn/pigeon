@@ -2,17 +2,17 @@ import sys
 import os
 from os.path import splitext, basename, exists, join
 from pigeon.utils.parseconfig import ParseConfig
-from pigeon.utils.runpipe import *
+from pigeon.utils.runpipe import RunPipe
 
 
 class Pipe():
 
     """Docstring for seqPipe. """
 
-    def __init__(self, pipeline_config, dryrun=False, verbose=False , from_string=False):
+    def __init__(self, pipeline_config, dryrun=False, verbose=False , read_from='file'):
         """TODO: to be defined1. """
 
-        pipe_configs = ParseConfig(pipeline_config, from_string=from_string)
+        pipe_configs = ParseConfig(pipeline_config, read_from=read_from)
         self.general_args = pipe_configs.general_args
         self.tool_args = pipe_configs.tool_args
         self.tool_list = pipe_configs.tool_list
@@ -77,7 +77,7 @@ class Pipe():
         cmd = ''
         # if java tool add java -jar to start
         if 'java' in self.tool_args[tool].keys():
-            cmd = cmd + 'java -jar '
+            cmd = cmd + self.tool_args[tool]['java'] + ' -jar '
         # otherwise just add path to tool
         cmd = cmd + self.tool_args[tool]['tool']
         # if running sub command add the sub command
