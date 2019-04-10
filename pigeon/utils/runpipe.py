@@ -40,7 +40,7 @@ class RunPipe:
                 start_log = 'Start log for job: {}\nStart time: {}\nCommand:\n{}'.format(
                     self.tool, tool_datetime, self.cmd)
                 end_log = 'Finished running command in {}.\nEnd of log for job: {}\n{}\n'.format(
-                    t2, self.tool, '#'*20)
+                    t2, self.tool, '#' * 20)
 
                 # Log tool's stdout and stderr
                 if len(tool_outs) > 1:
@@ -61,7 +61,7 @@ class RunPipe:
                     logger.error(tool_err)
                 logger.info(end_log)
 
-                if self.verbose != False:
+                if not self.verbose:
                     sys.stdout.write('{}\nTOOL OUTPUT:\n{}\nTOOL ERROR:\n{}\n{}'.format(
                         start_log, '\n'.join(tool_outs), '\n'.join(tool_errs), end_log))
                 return orig_func(*args, **kwargs)

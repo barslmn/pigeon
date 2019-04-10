@@ -25,8 +25,8 @@ def get_args():
                         action='version', version=__version__)
 
     subparsers = parser.add_subparsers(dest='tool')
-    parser_example = subparsers.add_parser('createconfig',
-                                           help='Create an example config file in current directory')
+    subparsers.add_parser('createconfig',
+                          help='Create an example config file in current directory')
 
     args = parser.parse_args()
     return args

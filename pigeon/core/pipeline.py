@@ -9,16 +9,19 @@ class Pipe():
 
     """Docstring for seqPipe. """
 
-    def __init__(self, pipeline_config, dryrun=False, verbose=False , read_from='file'):
+    def __init__(self, pipeline_config, dryrun=False, verbose=False, read_from='file'):
         """TODO: to be defined1. """
 
         pipe_configs = ParseConfig(pipeline_config, read_from=read_from)
         self.general_args = pipe_configs.general_args
         self.tool_args = pipe_configs.tool_args
         self.tool_list = pipe_configs.tool_list
-        self.project_name = self.general_args['project_name']
-        self.output_dir = join(
-            self.general_args['output_dir'], self.general_args['project_name'])
+        self.output_dir = self.general_args['output_dir']
+
+        if 'project_name' in self.general_args:
+            self.project_name = self.general_args['project_name']
+        else:
+            self.project_name = ''
 
         self.cmd_feed = {}
         self.input_feed = {
@@ -75,9 +78,9 @@ class Pipe():
 
     def create_cmd(self, tool, input_files, name=None):
         cmd = ''
-        # if java tool add java -jar to start
-        if 'java' in self.tool_args[tool].keys():
-            cmd = cmd + self.tool_args[tool]['java'] + ' -jar '
+        # if container tool add container -jar to start
+        if 'container' in self.tool_args[tool].keys():
+            cmd = cmd + self.tool_args[tool]['container']
         # otherwise just add path to tool
         cmd = cmd + self.tool_args[tool]['tool']
         # if running sub command add the sub command
