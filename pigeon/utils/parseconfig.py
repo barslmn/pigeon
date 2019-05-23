@@ -18,8 +18,9 @@ class ParseConfig(object):
         if self.read_from == 'configparser':
             _config = self.pipeline_config
         else:
-            _config = configparser.ConfigParser()
-            _config._interpolation = configparser.ExtendedInterpolation()
+            _config = configparser.ConfigParser(
+                interpolation=configparser.ExtendedInterpolation()
+            )
             if self.read_from == 'string':
                 _config.read_string(self.pipeline_config)
             else:
@@ -27,24 +28,23 @@ class ParseConfig(object):
         return _config
 
     @property
-    def tool_list(self):
-        tool_list = [tool for tool in self.config['PIPELINE']['pipeline'].split(' ')]
-        return tool_list
+    def project_parameters(self):
+        return {parameter: self.config['PROJECT'][parameter] for parameter in self.config['PROJECT']}
 
     @property
-    def tool_args(self):
-        tool_args = {tool: {arg: self.config[tool][arg] for arg in list(
-            self.config[tool])} for tool in self.tool_list}
-        return tool_args
+    def task_list(self):
+        task_list = [task for task in self.config['PIPELINE']
+                     ['pipeline'].replace('\n', ' ').split()]
+        return task_list
 
     @property
-    def pipeline_args(self):
-        return {arg: self.config['PIPELINE'][arg] for arg in self.config['PIPELINE']}
+    def task_parameters(self):
+        task_parameters = {task: {parameter: self.config[task][parameter].replace('\n', ' ') for parameter in list(self.config[task])} for task in self.task_list}
+        return task_parameters
 
     @property
-    def general_args(self):
-        return {arg: self.config['GENERAL'][arg] for arg in self.config['GENERAL']}
-
-    @property
-    def default_args(self):
-        return {arg: self.config['DEFAULT'][arg] for arg in self.config['DEFAULT']}
+    def include(self):
+        if 'INCLUDE' in self.config.keys():
+            return {pipeline: self.config['INCLUDE'][pipeline] for pipeline in self.config['INCLUDE']}
+        else:
+            pass

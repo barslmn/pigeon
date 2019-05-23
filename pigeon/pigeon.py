@@ -47,7 +47,6 @@ def main():
     else:
         pipeline = Pipe(configfile, dryrun, verbose)
         pipeline.run_pipeline()
-        pipeline.remove_files()
 
 
 if __name__ == '__main__':

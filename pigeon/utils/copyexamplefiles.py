@@ -9,5 +9,5 @@ from shutil import copyfile
 def main():
     data_path = examples.__path__[0]
     cwd = os.getcwd()
-    config_file = '/default_exome_pipeline.conf'
+    config_file = '/example.conf'
     copyfile(data_path + config_file, cwd + config_file)
